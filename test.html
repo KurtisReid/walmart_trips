@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<h1>store finder</h1>
+		<div>
+			<b>store Number:</b> <span id="store"></span><br>
+			<b>Street:</b> <span id="street"></span><br>
+			<b>City:</b> <span id="city"></span>
+			<b>State</b> <span id="state"></span><br>
+			<b>Zip code:</b> <span id="zip"></span><br>
+		</div>
+
+		<script>
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp.open("GET","http://api.walmartlabs.com/v1/stores?format=xml&zip=44662&city=Navarre&apiKey=rqtcmkbmecrf2whnssb9kc3u",false);
+			xmlhttp.send();
+			xmlDoc=xmlhttp.responseXML;
+
+			document.getElementById("store").innerHTML=
+			xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
+			document.getElementById("street").innerHTML=
+			xmlDoc.getElementsByTagName("streetAddress")[0].childNodes[0].nodeValue;
+			document.getElementById("city").innerHTML=
+			xmlDoc.getElementsByTagName("city")[0].childNodes[0].nodeValue;
+			document.getElementById("state").innerHTML=
+			xmlDoc.getElementsByTagName("stateProvCode")[0].childNodes[0].nodeValue;
+			document.getElementById("zip").innerHTML=
+			xmlDoc.getElementsByTagName("zip")[0].childNodes[0].nodeValue;
+
+		</script>
+
+	</body>
+</html>
