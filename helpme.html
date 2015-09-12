@@ -6,7 +6,7 @@
 	<body>
 		<h1>store finder</h1>
 		<p>Push button to find location </p>
-		<button onclick="find_location()">Find yourself</button>
+		<button onclick="getLocation()">Find yourself</button>
 		<!--<input type="submit" value="Submit" onclick="displayStore()" />-->
 		<p id="your_location"></p>
 		
@@ -27,7 +27,7 @@
 			{
 				if (navigator.geolocation) 
 				{
-					navigator.geolocation.getCurrentPosition(showPosition);
+					navigator.geolocation.getCurrentPosition(curPosition);
 				}
 				else
 				{
@@ -87,7 +87,7 @@
 				document.getElementById(element_id).innerHTML=xmlDoc.getElementsByTagName(tag_name)[x].childNodes[y].nodeValue;
 			}
 
-			position.coords.latitude + "<br> longitude: " + position.coords.longitude
+			
 
 
 			function makeUrl()
