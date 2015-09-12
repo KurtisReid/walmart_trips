@@ -7,18 +7,41 @@
 		<h1>store finder</h1>
 		<p>Push button to find location </p>
 		<button onclick="getLocation()">Find yourself</button>
-		<!--<input type="submit" value="Submit" onclick="displayStore()" />-->
+		<!--<button onclick="displayStore()">Find Walmarts</button>-->
 		<p id="your_location"></p>
 		
 		
 		<div>
-			<!--<b>Store Number:</b> <span id="store"></span><br>-->
-			<b>coordinates:</b> <span id="cord"></span><br>
-			<b>coordinates:</b> <span id="cordTwo"></span><br>
+			<b>Walmart #</b> <span id="store"></span><br>
+			<!--<b>coordinates:</b> <span id="cord"></span><br>
+			<b>coordinates:</b> <span id="cordTwo"></span><br>-->
 			<b>Street:</b> <span id="street"></span><br>
 			<b>City:</b> <span id="city"></span><br>
 			<b>State</b> <span id="state"></span><br>
 			<b>Zip code:</b> <span id="zip"></span><br>
+			<b>Phone: </b> <span id="phone"></span><br><hr>
+		</div>
+
+		<div>
+			<b>Walmart #</b> <span id="store2"></span><br>
+			<!--<b>coordinates:</b> <span id="cord"></span><br>
+			<b>coordinates:</b> <span id="cordTwo"></span><br>-->
+			<b>Street:</b> <span id="street2"></span><br>
+			<b>City:</b> <span id="city2"></span><br>
+			<b>State</b> <span id="state2"></span><br>
+			<b>Zip code:</b> <span id="zip2"></span><br>
+			<b>Phone: </b> <span id="phone2"></span><br><hr>
+		</div>
+
+		<div>
+			<b>Walmart #</b> <span id="store3"></span><br>
+			<!--<b>coordinates:</b> <span id="cord"></span><br>
+			<b>coordinates:</b> <span id="cordTwo"></span><br>-->
+			<b>Street:</b> <span id="street3"></span><br>
+			<b>City:</b> <span id="city3"></span><br>
+			<b>State</b> <span id="state3"></span><br>
+			<b>Zip code:</b> <span id="zip3"></span><br>
+			<b>Phone: </b> <span id="phone3"></span><br><hr>
 		</div>
 
 		<script>
@@ -37,12 +60,11 @@
 			function curPosition(position)
 			{
 				cl.innerHTML = "Latitude: " + position.coords.latitude + "<br> longitude: " + position.coords.longitude;
-			}
-			function displayStore()
-			{
-				var storeUrl = makeUrl();
+				
+				var storeUrl = makeUrl(position.coords.latitude, position.coords.longitude);
 				getFromApi(storeUrl);
 			}
+			
 			
 			function trip_options()
 			{
@@ -72,13 +94,28 @@
 				//document.getElementById("store").innerHTML=
 				//xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
 				
-				//connects walmart api info to screen
-				displayEleme("cord", "coordinates", 1, 0, xmlDoc);
-				displayEleme("cordTwo", "coordinates", 2, 0, xmlDoc);
+				displayEleme("store", "no", 0, 0, xmlDoc);
 				displayEleme("street", "streetAddress", 0, 0, xmlDoc);
 				displayEleme("city", "city", 0, 0, xmlDoc);
 				displayEleme("state", "stateProvCode", 0, 0, xmlDoc);
 				displayEleme("zip", "zip", 0, 0, xmlDoc);
+				displayEleme("phone", "phoneNumber", 0, 0, xmlDoc);
+
+				//second walmart
+				displayEleme("store2", "no", 1, 0, xmlDoc);
+				displayEleme("street2", "streetAddress", 1, 0, xmlDoc);
+				displayEleme("city2", "city", 1, 0, xmlDoc);
+				displayEleme("state2", "stateProvCode", 1, 0, xmlDoc);
+				displayEleme("zip2", "zip", 1, 0, xmlDoc);
+				displayEleme("phone2", "phoneNumber", 1, 0, xmlDoc);
+
+				//third walmart
+				displayEleme("store3", "no", 2, 0, xmlDoc);
+				displayEleme("street3", "streetAddress", 2, 0, xmlDoc);
+				displayEleme("city3", "city", 2, 0, xmlDoc);
+				displayEleme("state3", "stateProvCode", 2, 0, xmlDoc);
+				displayEleme("zip3", "zip", 2, 0, xmlDoc);
+				displayEleme("phone3", "phoneNumber", 2, 0, xmlDoc);
 			}
 
 			function displayEleme(element_id, tag_name, x, y, xmlDoc)
@@ -90,21 +127,22 @@
 			
 
 
-			function makeUrl()
+			function makeUrl(lat, lon)
 			{
 				var str1 = "http://api.walmartlabs.com/v1/stores?format=xml&";
 				var latPart = "lat=";
-				var lat_input = position.coords.latitude;
+				//var lat_input = position.coords.latitude;
 				var lonPart = "&lon=";
-				var lon_input = position.coords.longitude;
+				//var lon_input = position.coords.longitude;
 				var apiKey = "&apiKey=rqtcmkbmecrf2whnssb9kc3u";
-				
+				lat = lat.toFixed(6);
+				lon = lon.toFixed(6);
 
 				//check if zip entered
-				str1 = add_on_to_url(str1, lat_input, latPart);
+				str1 = add_on_to_url(str1, lat, latPart);
 				
 				//check if city entered
-				str1 = add_on_to_url(str1, lon_input, lonPart);
+				str1 = add_on_to_url(str1, lon, lonPart);
 				
 				str1 = str1.concat(apiKey);
 
