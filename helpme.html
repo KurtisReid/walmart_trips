@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<h1>store finder</h1>
+		<p>Push button to find location </p>
+		<button onclick="find_location()">Find yourself</button>
+		<!--<input type="submit" value="Submit" onclick="displayStore()" />-->
+		<p id="your_location"></p>
+		
+		
+		<div>
+			<!--<b>Store Number:</b> <span id="store"></span><br>-->
+			<b>coordinates:</b> <span id="cord"></span><br>
+			<b>coordinates:</b> <span id="cordTwo"></span><br>
+			<b>Street:</b> <span id="street"></span><br>
+			<b>City:</b> <span id="city"></span><br>
+			<b>State</b> <span id="state"></span><br>
+			<b>Zip code:</b> <span id="zip"></span><br>
+		</div>
+
+		<script>
+			var cl = document.getElementById("your_location");
+			function getLocation()
+			{
+				if (navigator.geolocation) 
+				{
+					navigator.geolocation.getCurrentPosition(showPosition);
+				}
+				else
+				{
+					cl.innerHTML = "Unsupported browser";
+				}
+			}
+			function curPosition(position)
+			{
+				cl.innerHTML = "Latitude: " + position.coords.latitude + "<br> longitude: " + position.coords.longitude;
+			}
+			function displayStore()
+			{
+				var storeUrl = makeUrl();
+				getFromApi(storeUrl);
+			}
+			
+			function trip_options()
+			{
+				get_hotel_ids_url()
+			}
+			function getFromApi(Url)
+			{
+				//var zip_input = document.getElementById("user_zip").value;
+				//var city_input = document.getElementById("user_city").value;		
+				
+
+				alert(Url);//test to see url
+		
+				if (window.XMLHttpRequest)javascript:void(0);
+				  {// code for IE7+, Firefox, Chrome, Opera, Safari
+				  xmlhttp=new XMLHttpRequest();
+				  }
+				//else
+				  //{// code for IE6, IE5
+				  //xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				  //}
+				
+				xmlhttp.open("GET", Url,false);
+				xmlhttp.send();
+				xmlDoc=xmlhttp.responseXML;
+
+				//document.getElementById("store").innerHTML=
+				//xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
+				
+				//connects walmart api info to screen
+				displayEleme("cord", "coordinates", 1, 0, xmlDoc);
+				displayEleme("cordTwo", "coordinates", 2, 0, xmlDoc);
+				displayEleme("street", "streetAddress", 0, 0, xmlDoc);
+				displayEleme("city", "city", 0, 0, xmlDoc);
+				displayEleme("state", "stateProvCode", 0, 0, xmlDoc);
+				displayEleme("zip", "zip", 0, 0, xmlDoc);
+			}
+
+			function displayEleme(element_id, tag_name, x, y, xmlDoc)
+			{
+				//prints stuff to screen
+				document.getElementById(element_id).innerHTML=xmlDoc.getElementsByTagName(tag_name)[x].childNodes[y].nodeValue;
+			}
+
+			position.coords.latitude + "<br> longitude: " + position.coords.longitude
+
+
+			function makeUrl()
+			{
+				var str1 = "http://api.walmartlabs.com/v1/stores?format=xml&";
+				var latPart = "lat=";
+				var lat_input = position.coords.latitude;
+				var lonPart = "&lon=";
+				var lon_input = position.coords.longitude;
+				var apiKey = "&apiKey=rqtcmkbmecrf2whnssb9kc3u";
+				
+
+				//check if zip entered
+				str1 = add_on_to_url(str1, lat_input, latPart);
+				
+				//check if city entered
+				str1 = add_on_to_url(str1, lon_input, lonPart);
+				
+				str1 = str1.concat(apiKey);
+
+				return str1;
+
+				
+				
+			}
+		
+			function add_on_to_url(str1, input, part)
+			{
+			//concatiates parts of url
+				if (input.length === 0)
+				{
+					// do nothing
+				}
+				else
+				{
+					str1 = str1.concat(part);
+					str1 = str1.concat(input);
+	
+				}
+				return str1;
+			}
+
+			function get_hotel_ids_url()
+			{
+				// takes cordinates of walmart and plusg them into expedia api for hotel 
+				var strFront = "http://terminal2.expedia.com/x/hotels?";
+				var longitude = document.getElementById("cordTwo");
+				var lattitude = document.getElementById("cord");
+				var api_key = "&radius=5km&apikey={INSERT_KEY_HERE}"
+				var loc_part = "location=";
+				loc_part = loc_part.concat(longitude);
+				loc_part = loc_part.concat(", ");
+				loc_part = loc_part.concat(lattitude);
+				strFront = strFront.concat(loc_part);
+				strFront = strFront.concat(api_key);
+
+				return strFront;
+			}
+			 
+			
+		</script>
+
+	</body>
+</html>
