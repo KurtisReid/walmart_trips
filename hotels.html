@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+	<body>
+		<h1>test</h1>
+		<div>
+			<b>Item Id:</b> <span id="itemId"></span><br>
+			<b>Parent item id:</b> <span id="parentItemId"></span><br>
+			<b>Name:</b> <span id="name"></span>
+		</div>
+
+		<script>
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp.open("GET","http://api.walmartlabs.com/v1/vod?format=xml&apiKey=rqtcmkbmecrf2whnssb9kc3u",false);
+			xmlhttp.send();
+			xmlDoc=xmlhttp.responseXML;
+
+			document.getElementById("itemId").innerHTML=
+			xmlDoc.getElementsByTagName("itemId")[0].childNodes[0].nodeValue;
+			document.getElementById("parentItemId").innerHTML=
+			xmlDoc.getElementsByTagName("parentItemId")[0].childNodes[0].nodeValue;
+			document.getElementById("name").innerHTML=
+			xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
+		</script>
+
+	</body>
+</html>
