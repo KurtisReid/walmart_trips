@@ -1,43 +1,34 @@
+<!DOCTYPE html>
 <html>
-	<head>
-		<h3>header </h3>
-		
-	</head>
-	
 	<body>
-		<h3> body </h3>
+		<h1>test</h1>
 		<div>
-			<b>Name:</b> <span id="query"><br />
-			<b>Itemid:</b> <span id="itemId"><br />
+			<b>To:</b> <span id="itemId"></span><br>
+			<b>From:</b> <span id="parentItemId"></span><br>
+			<b>Message:</b> <span id="name"></span>
 		</div>
+
 		<script>
-	
-		
-		xmlhttp=new XMLHttpRequest();
+			if (window.XMLHttpRequest)
+			  {// code for IE7+, Firefox, Chrome, Opera, Safari
+			  xmlhttp=new XMLHttpRequest();
+			  }
+			else
+			  {// code for IE6, IE5
+			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+			  }
+			xmlhttp.open("GET","http://api.walmartlabs.com/v1/vod?format=xml&apiKey=rqtcmkbmecrf2whnssb9kc3u",false);
+			xmlhttp.send();
+			xmlDoc=xmlhttp.responseXML;
 
-		xmlhttp.onreadystatechange=function()
-		{
-			if (xmlhttp.readyState==4 && xmlhttp.status==200)
-			{
-				document.getElementById("name").innerHTML=xmlhttp.responseText;
-			}
-		}
-		xmlhttp.open("GET","http://api.walmartlabs.com/v1/search?query=ipod&format=xml&apiKey=rqtcmkbmecrf2whnssb9kc3u",true);
-		xmlhttp.send();
-		xmlDoc=xmlhttp.responseXML;
-
-		document.getElementById("query").innerHTML=xmlDoc.getElementsByTagName("query")[0].childNodes[0].nodeValue;
-		document.getElementById("itemId").innerHTML=xmlDoc.getElementsByTagName("itemId")[0].childNodes[0].nodeValue;
-		
-		
-		
-
-
-		
-		
-
+			document.getElementById("itemId").innerHTML=
+			xmlDoc.getElementsByTagName("itemId")[0].childNodes[0].nodeValue;
+			document.getElementById("parentItemId").innerHTML=
+			xmlDoc.getElementsByTagName("parentItemId")[0].childNodes[0].nodeValue;
+			document.getElementById("name").innerHTML=
+			xmlDoc.getElementsByTagName("name")[0].childNodes[0].nodeValue;
 		</script>
-	</body>
 
+	</body>
 </html>
 
