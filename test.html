@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 <html>
+	<head>
+		<script>
+			//user input
+			
+			//var zip_input = document.getElementById("user_zip").value;
+			//var city_input = document.getElementById("user_city").value;
+		</script>
+	</head>
 	<body>
 		<h1>store finder</h1>
+		<h1>city</h1>
+		<input type="text" id="user_city" />
+		<!--<input type="submit" value="Submit" />-->
+
+		<h1>zip</h1>
+		<input type="text" id="user_zip" />
+		<input type="submit" value="Submit" onclick="displayStore()" />
+		
+		
 		<div>
-			<b>store Number:</b> <span id="store"></span><br>
+			<!--<b>Store Number:</b> <span id="store"></span><br>-->
 			<b>Street:</b> <span id="street"></span><br>
 			<b>City:</b> <span id="city"></span>
 			<b>State</b> <span id="state"></span><br>
@@ -11,29 +28,81 @@
 		</div>
 
 		<script>
-			if (window.XMLHttpRequest)
-			  {// code for IE7+, Firefox, Chrome, Opera, Safari
-			  xmlhttp=new XMLHttpRequest();
-			  }
-			else
-			  {// code for IE6, IE5
-			  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-			  }
-			xmlhttp.open("GET","http://api.walmartlabs.com/v1/stores?format=xml&zip=44662&city=Navarre&apiKey=rqtcmkbmecrf2whnssb9kc3u",false);
-			xmlhttp.send();
-			xmlDoc=xmlhttp.responseXML;
+			function displayStore()
+			{
+				//var zip_input = document.getElementById("user_zip").value;
+				//var city_input = document.getElementById("user_city").value;		
+				var storeUrl = makeUrl();
 
-			document.getElementById("store").innerHTML=
-			xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
-			document.getElementById("street").innerHTML=
-			xmlDoc.getElementsByTagName("streetAddress")[0].childNodes[0].nodeValue;
-			document.getElementById("city").innerHTML=
-			xmlDoc.getElementsByTagName("city")[0].childNodes[0].nodeValue;
-			document.getElementById("state").innerHTML=
-			xmlDoc.getElementsByTagName("stateProvCode")[0].childNodes[0].nodeValue;
-			document.getElementById("zip").innerHTML=
-			xmlDoc.getElementsByTagName("zip")[0].childNodes[0].nodeValue;
+				alert(storeUrl);
+		
+				if (window.XMLHttpRequest)javascript:void(0);
+				  {// code for IE7+, Firefox, Chrome, Opera, Safari
+				  xmlhttp=new XMLHttpRequest();
+				  }
+				//else
+				  //{// code for IE6, IE5
+				  //xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				  //}
+				
+				xmlhttp.open("GET", storeUrl,false);
+				xmlhttp.send();
+				xmlDoc=xmlhttp.responseXML;
 
+				//document.getElementById("store").innerHTML=
+				//xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
+				document.getElementById("street").innerHTML=
+				xmlDoc.getElementsByTagName("streetAddress")[0].childNodes[0].nodeValue;
+				document.getElementById("city").innerHTML=
+				xmlDoc.getElementsByTagName("city")[0].childNodes[0].nodeValue;
+				document.getElementById("state").innerHTML=
+				xmlDoc.getElementsByTagName("stateProvCode")[0].childNodes[0].nodeValue;
+				document.getElementById("zip").innerHTML=
+				xmlDoc.getElementsByTagName("zip")[0].childNodes[0].nodeValue;
+			}
+
+			function makeUrl()
+			{
+				var str1 = "http://api.walmartlabs.com/v1/stores?format=xml&";
+				var zipPart = "zip=";
+				var zip_input = document.getElementById("user_zip").value;
+				var cityPart = "city=";
+				var city_input = document.getElementById("user_city").value;
+				var apiKey = "&apiKey=rqtcmkbmecrf2whnssb9kc3u";
+				
+
+				//check if zip entered
+				if (zip_input.length === 0)
+				{
+					// do nothing
+				}
+				else
+				{
+					str1 = str1.concat(zipPart);
+					str1 = str1.concat(zip_input);
+					
+	
+				}
+				
+				if (city_input === 0)
+				{
+					// do nothing	
+				}
+				else
+				{
+					str1 = str1.concat("&");
+					str1 = str1.concat(cityPart);
+					str1 = str1.concat(city_input);
+				}
+				str1 = str1.concat(apiKey);
+
+				return str1;
+
+				
+				
+			}
+			 
+			
 		</script>
 
 	</body>
