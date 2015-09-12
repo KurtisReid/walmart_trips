@@ -43,11 +43,12 @@
 			<b>Zip code:</b> <span id="zip3"></span><br>
 			<b>Phone: </b> <span id="phone3"></span><br><hr>
 		</div>
-
+		<div id="id01"></div>
 		<script>
 			var cl = document.getElementById("your_location");
 			function getLocation()
 			{
+			//Checks if browser supports geolocation
 				if (navigator.geolocation) 
 				{
 					navigator.geolocation.getCurrentPosition(curPosition);
@@ -57,18 +58,26 @@
 					cl.innerHTML = "Unsupported browser";
 				}
 			}
+
 			function curPosition(position)
 			{
+			//Pre:Browser supports geotracking
+			//Post: The users current location in lattitude and longitiude are known
+			//Gives
 				cl.innerHTML = "Latitude: " + position.coords.latitude + "<br> longitude: " + position.coords.longitude;
 				
-				var storeUrl = makeUrl(position.coords.latitude, position.coords.longitude);
-				getFromApi(storeUrl);
+				var storeUrl = makeUrl("http://api.walmartlabs.com/v1/stores?format=xml&", "lat=", position.coords.latitude, "&lon=", position.coords.longitude, "&apiKey=rqtcmkbmecrf2whnssb9kc3u");
+				walmart_display(getFromApi(storeUrl));
+				
+
+				find_airport(position.coords.latitude, position.coords.longitude);
 			}
 			
 			
 			function trip_options()
 			{
-				get_hotel_ids_url()
+				//get_hotel_ids_url()
+				
 			}
 			function getFromApi(Url)
 			{
@@ -90,6 +99,10 @@
 				xmlhttp.open("GET", Url,false);
 				xmlhttp.send();
 				xmlDoc=xmlhttp.responseXML;
+				return xmlDoc;
+			}
+			function walmart_display(xmlDoc)
+			{
 
 				//document.getElementById("store").innerHTML=
 				//xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
@@ -127,14 +140,20 @@
 			
 
 
-			function makeUrl(lat, lon)
+			function makeUrl(str1, latPart, lat, lonPart, lon, apiKey)
 			{
-				var str1 = "http://api.walmartlabs.com/v1/stores?format=xml&";
-				var latPart = "lat=";
+			// concatinates parts of API call 
+			//Pre: Browser supports geotracking
+			//Post: Api url is complete
+
+
+				//var str1 = "http://api.walmartlabs.com/v1/stores?format=xml&";
+				
+				//var latPart = "lat=";
 				//var lat_input = position.coords.latitude;
-				var lonPart = "&lon=";
+				//var lonPart = "&lon=";
 				//var lon_input = position.coords.longitude;
-				var apiKey = "&apiKey=rqtcmkbmecrf2whnssb9kc3u";
+				//var apiKey = "&apiKey=rqtcmkbmecrf2whnssb9kc3u";
 				lat = lat.toFixed(6);
 				lon = lon.toFixed(6);
 
@@ -168,13 +187,17 @@
 				return str1;
 			}
 
-			function get_hotel_ids_url()
+			function get_hotel_id_url()
 			{
-				// takes cordinates of walmart and plusg them into expedia api for hotel 
+			
+				// takes cordinates of walmarts and plugs them into expedia api for hotel ids
+				// Pre: coord and coordTwo are longitudional/lattitude degrees
+				// Post: Hotel url is ready to call expedia api to request hotel ids
+
 				var strFront = "http://terminal2.expedia.com/x/hotels?";
 				var longitude = document.getElementById("cordTwo");
 				var lattitude = document.getElementById("cord");
-				var api_key = "&radius=5km&apikey={INSERT_KEY_HERE}"
+				var api_key = "&radius=5km&apikey=fKVxSTGZfDU5wQDFQalTHXD70Dvb0O9g"
 				var loc_part = "location=";
 				loc_part = loc_part.concat(longitude);
 				loc_part = loc_part.concat(", ");
@@ -184,7 +207,6 @@
 
 				return strFront;
 			}
-			 
 			
 		</script>
 
