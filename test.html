@@ -1,12 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<script>
-			//user input
-			
-			//var zip_input = document.getElementById("user_zip").value;
-			//var city_input = document.getElementById("user_city").value;
-		</script>
+		
 	</head>
 	<body>
 		<h1>store finder</h1>
@@ -21,8 +16,10 @@
 		
 		<div>
 			<!--<b>Store Number:</b> <span id="store"></span><br>-->
+			<b>coordinates:</b> <span id="cord"></span><br>
+			<b>coordinates:</b> <span id="cordTwo"></span><br>
 			<b>Street:</b> <span id="street"></span><br>
-			<b>City:</b> <span id="city"></span>
+			<b>City:</b> <span id="city"></span><br>
 			<b>State</b> <span id="state"></span><br>
 			<b>Zip code:</b> <span id="zip"></span><br>
 		</div>
@@ -34,7 +31,7 @@
 				//var city_input = document.getElementById("user_city").value;		
 				var storeUrl = makeUrl();
 
-				alert(storeUrl);
+				//alert(storeUrl);//test to see url
 		
 				if (window.XMLHttpRequest)javascript:void(0);
 				  {// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -51,14 +48,18 @@
 
 				//document.getElementById("store").innerHTML=
 				//xmlDoc.getElementsByTagName("no")[0].childNodes[0].nodeValue;
-				document.getElementById("street").innerHTML=
-				xmlDoc.getElementsByTagName("streetAddress")[0].childNodes[0].nodeValue;
-				document.getElementById("city").innerHTML=
-				xmlDoc.getElementsByTagName("city")[0].childNodes[0].nodeValue;
-				document.getElementById("state").innerHTML=
-				xmlDoc.getElementsByTagName("stateProvCode")[0].childNodes[0].nodeValue;
-				document.getElementById("zip").innerHTML=
-				xmlDoc.getElementsByTagName("zip")[0].childNodes[0].nodeValue;
+				document.getElementById("cord").innerHTML=xmlDoc.getElementsByTagName("coordinates")[1].childNodes[0].nodeValue;
+
+				document.getElementById("cordTwo").innerHTML=xmlDoc.getElementsByTagName("coordinates")[2].childNodes[0].nodeValue;
+
+				document.getElementById("street").innerHTML=xmlDoc.getElementsByTagName("streetAddress")[0].childNodes[0].nodeValue;
+
+				document.getElementById("city").innerHTML=xmlDoc.getElementsByTagName("city")[0].childNodes[0].nodeValue;
+
+				document.getElementById("state").innerHTML=xmlDoc.getElementsByTagName("stateProvCode")[0].childNodes[0].nodeValue;
+
+				document.getElementById("zip").innerHTML=xmlDoc.getElementsByTagName("zip")[0].childNodes[0].nodeValue;
+
 			}
 
 			function makeUrl()
